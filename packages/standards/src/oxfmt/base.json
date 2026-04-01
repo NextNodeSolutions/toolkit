@@ -21,7 +21,7 @@
 			["sibling", "type-sibling"],
 			["index", "type-index"]
 		],
-		"newlinesBetween": "always"
+		"newlinesBetween": true
 	},
 	"overrides": [
 		{
