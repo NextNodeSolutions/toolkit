@@ -180,8 +180,6 @@ export async function createEmailManager<P extends keyof ProviderConfigMap>(
 	config: EmailManagerConfig<P>,
 ): Promise<EmailManager> {
 	const logger = callerLoggerOrSilent(config.logger)
-
-	// PERF-2: Provider client created once, reused for all sends
 	const provider = await createProvider(
 		config.provider,
 		config.providerConfig,
