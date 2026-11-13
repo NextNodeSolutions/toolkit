@@ -29,7 +29,7 @@
   "scripts": {
     "build": "cp src/oxfmt/base.ts src/oxfmt/base.js",
     "lint": "oxlint",
-    "test": "vitest run"
+    "test:unit": "vitest run"
   },
   "dependencies": {
     "@semantic-release/github": "^12.0.6",

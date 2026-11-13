@@ -30,8 +30,8 @@
   "scripts": {
     "build": "tsdown",
     "lint": "oxlint --type-aware",
-    "test": "vitest run",
     "test:coverage": "vitest run --coverage",
+    "test:unit": "vitest run",
     "test:watch": "vitest",
     "type-check": "tsc --noEmit"
   },
