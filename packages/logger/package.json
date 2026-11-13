@@ -28,7 +28,7 @@
   "repository": {
     "directory": "packages/logger",
     "type": "git",
-    "url": "https://github.com/NextNodeSolutions/core.git"
+    "url": "git+https://github.com/NextNodeSolutions/toolkit.git"
   },
   "scripts": {
     "build": "tsdown",

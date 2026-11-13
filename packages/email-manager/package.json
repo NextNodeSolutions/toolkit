@@ -10,9 +10,9 @@
     "templates",
     "typescript"
   ],
-  "homepage": "https://github.com/NextNodeSolutions/core#readme",
+  "homepage": "https://github.com/NextNodeSolutions/toolkit/tree/main/packages/email-manager#readme",
   "bugs": {
-    "url": "https://github.com/NextNodeSolutions/core/issues"
+    "url": "https://github.com/NextNodeSolutions/toolkit/issues"
   },
   "license": "MIT",
   "author": "NextNode Solutions",
@@ -25,7 +25,7 @@
   "repository": {
     "directory": "packages/email-manager",
     "type": "git",
-    "url": "https://github.com/NextNodeSolutions/core.git"
+    "url": "git+https://github.com/NextNodeSolutions/toolkit.git"
   },
   "scripts": {
     "build": "tsdown",

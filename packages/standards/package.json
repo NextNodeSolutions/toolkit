@@ -11,9 +11,9 @@
     "oxlint",
     "standards"
   ],
-  "homepage": "https://github.com/NextNodeSolutions/core#readme",
+  "homepage": "https://github.com/NextNodeSolutions/toolkit/tree/main/packages/standards#readme",
   "bugs": {
-    "url": "https://github.com/NextNodeSolutions/core/issues"
+    "url": "https://github.com/NextNodeSolutions/toolkit/issues"
   },
   "license": "MIT",
   "author": "NextNode Solutions",
@@ -22,8 +22,9 @@
     "src"
   ],
   "repository": {
+    "directory": "packages/standards",
     "type": "git",
-    "url": "https://github.com/NextNodeSolutions/core.git"
+    "url": "git+https://github.com/NextNodeSolutions/toolkit.git"
   },
   "scripts": {
     "build": "cp src/oxfmt/base.ts src/oxfmt/base.js",
