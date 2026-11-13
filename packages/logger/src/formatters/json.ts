@@ -71,6 +71,12 @@ const buildJsonOutput = (entry: LogEntry): JsonLogOutput => {
 	}
 }
 
+// Only the caller's log object can hold an Error or a cycle; the core fields are plain values.
+const replacerFor = (
+	entry: LogEntry,
+): ReturnType<typeof createCycleSafeReplacer> | undefined =>
+	entry.object ? createCycleSafeReplacer() : undefined
+
 /**
  * Formats a log entry as structured JSON.
  * - Omits undefined/null optional fields for cleaner output
@@ -78,11 +84,11 @@ const buildJsonOutput = (entry: LogEntry): JsonLogOutput => {
  * - Produces single-line JSON optimized for log aggregation
  */
 export const formatAsJson = (entry: LogEntry): string =>
-	JSON.stringify(buildJsonOutput(entry), createCycleSafeReplacer())
+	JSON.stringify(buildJsonOutput(entry), replacerFor(entry))
 
 /**
  * Formats a log entry as pretty-printed JSON.
  * Useful for debugging and development with structured output.
  */
 export const formatAsJsonPretty = (entry: LogEntry): string =>
-	JSON.stringify(buildJsonOutput(entry), createCycleSafeReplacer(), 2)
+	JSON.stringify(buildJsonOutput(entry), replacerFor(entry), 2)
