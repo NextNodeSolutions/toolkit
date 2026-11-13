@@ -1,4 +1,4 @@
-import { createLogger } from '@nextnode-solutions/logger'
+import { callerLoggerOrSilent } from '../caller-logger.js'
 
 import { createResendProvider } from './resend.js'
 
@@ -6,10 +6,16 @@ import type { Logger } from '@nextnode-solutions/logger'
 import type { EmailProvider, ProviderConfigMap } from '../types/provider.js'
 
 async function initResend(
-	config: { apiKey: unknown },
+	config: unknown,
 	logger: Logger,
 ): Promise<EmailProvider> {
-	if (typeof config.apiKey !== 'string' || !config.apiKey.trim().length) {
+	if (
+		typeof config !== 'object' ||
+		config === null ||
+		!('apiKey' in config) ||
+		typeof config.apiKey !== 'string' ||
+		!config.apiKey.trim().length
+	) {
 		throw new Error('Resend API key is required and cannot be empty')
 	}
 
@@ -37,5 +43,5 @@ export async function createProvider(
 		throw new Error(`Unknown provider: ${String(name)}`)
 	}
 
-	return initResend(config, logger ?? createLogger({ silent: true }))
+	return initResend(config, callerLoggerOrSilent(logger))
 }

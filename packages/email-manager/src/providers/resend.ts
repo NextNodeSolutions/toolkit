@@ -110,8 +110,20 @@ const mapOptionalMetadata = (
 type ProviderUtils = ReturnType<typeof createProviderUtils>
 
 type ResendSendReply = {
-	data: { id: string } | null
+	data: unknown
 	error: { message: string } | null
+}
+
+const sentMessageIdOf = (sentEmail: unknown): string | null => {
+	if (
+		typeof sentEmail !== 'object' ||
+		sentEmail === null ||
+		!('id' in sentEmail) ||
+		typeof sentEmail.id !== 'string'
+	) {
+		return null
+	}
+	return sentEmail.id
 }
 
 const mapOptionalRecipients = (
@@ -174,7 +186,8 @@ const sendViaResend = async (
 			return fail(mapResendError(new Error(error.message)))
 		}
 
-		if (!data) {
+		const messageId = sentMessageIdOf(data)
+		if (messageId === null) {
 			logger.error('No data returned from Resend')
 			return fail({
 				code: 'PROVIDER_ERROR',
@@ -184,12 +197,12 @@ const sendViaResend = async (
 		}
 
 		logger.info('Email sent successfully', {
-			details: { messageId: data.id },
+			details: { messageId },
 		})
 
 		return {
 			success: true,
-			data: { id: data.id, provider: 'resend', sentAt: new Date() },
+			data: { id: messageId, provider: 'resend', sentAt: new Date() },
 		}
 	} catch (error) {
 		logger.error('Resend send failed', {
