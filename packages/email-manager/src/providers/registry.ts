@@ -6,10 +6,16 @@ import type { Logger } from '@nextnode-solutions/logger'
 import type { EmailProvider, ProviderConfigMap } from '../types/provider.js'
 
 async function initResend(
-	config: { apiKey: unknown },
+	config: unknown,
 	logger: Logger,
 ): Promise<EmailProvider> {
-	if (typeof config.apiKey !== 'string' || !config.apiKey.trim().length) {
+	if (
+		typeof config !== 'object' ||
+		config === null ||
+		!('apiKey' in config) ||
+		typeof config.apiKey !== 'string' ||
+		!config.apiKey.trim().length
+	) {
 		throw new Error('Resend API key is required and cannot be empty')
 	}
 
