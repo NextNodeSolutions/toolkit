@@ -101,7 +101,7 @@ export class HttpTransport implements Transport {
 
 	private buffer: LogEntry[] = []
 	private flushTimer: ReturnType<typeof setTimeout> | null = null
-	private isFlushing = false
+	private inFlight: Promise<void> | null = null
 
 	constructor(config: HttpTransportConfig) {
 		// Validate configuration before storing
@@ -158,14 +158,27 @@ export class HttpTransport implements Transport {
 	}
 
 	async flush(): Promise<void> {
-		if (this.isFlushing || !this.buffer.length) {
-			return
-		}
+		if (this.inFlight) return this.inFlight
+		if (!this.buffer.length) return
 
-		this.isFlushing = true
-		const entries = [...this.buffer]
+		const entries = this.buffer
 		this.buffer = []
+		this.inFlight = this.deliver(entries)
 
+		try {
+			await this.inFlight
+		} finally {
+			this.inFlight = null
+		}
+	}
+
+	async dispose(): Promise<void> {
+		this.stopFlushTimer()
+		await this.inFlight
+		await this.flush()
+	}
+
+	private async deliver(entries: LogEntry[]): Promise<void> {
 		try {
 			await this.sendWithRetry(entries)
 			this.config.onSuccess?.(entries.length)
@@ -174,14 +187,7 @@ export class HttpTransport implements Transport {
 				error instanceof Error ? error : new Error(String(error)),
 				entries,
 			)
-		} finally {
-			this.isFlushing = false
 		}
-	}
-
-	async dispose(): Promise<void> {
-		this.stopFlushTimer()
-		await this.flush()
 	}
 
 	private startFlushTimer(): void {
