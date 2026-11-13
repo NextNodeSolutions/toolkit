@@ -71,12 +71,10 @@ export class ConsoleTransport implements Transport {
 	private resolveFormat(): ConsoleFormat {
 		const requested: FormatOption = this.config.format ?? 'auto'
 
-		// Production always emits JSON unless a specific format is forced
-		if (this.config.environment === 'production' && requested !== 'json') {
-			return 'json'
-		}
-
 		if (requested !== 'auto') return requested
+
+		// Production always emits JSON unless a specific format is forced
+		if (this.config.environment === 'production') return 'json'
 
 		if (this.runtime === 'browser' || this.runtime === 'webworker') {
 			return 'browser'
