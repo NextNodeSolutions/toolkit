@@ -37,11 +37,6 @@ export interface JsonLogOutput {
 }
 
 /**
- * Builds the JSON output object from a log entry.
- * - Flattens object properties into root level for easier querying
- * - Filters out dangerous keys to prevent prototype pollution
- */
-/**
  * Returns a log object's safe properties, skipping undefined values and
  * prototype-pollution-prone keys, ready to be flattened onto the output.
  */

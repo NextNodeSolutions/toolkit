@@ -73,7 +73,6 @@ export class ConsoleTransport implements Transport {
 
 		if (requested !== 'auto') return requested
 
-		// Production always emits JSON unless a specific format is forced
 		if (this.config.environment === 'production') return 'json'
 
 		if (this.runtime === 'browser' || this.runtime === 'webworker') {

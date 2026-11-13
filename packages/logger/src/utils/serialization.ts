@@ -54,10 +54,7 @@ export const safeStringify = (subject: unknown): string => {
 			key,
 			val,
 		) {
-			if (typeof val !== 'object' || val === null) {
-				return typeToString(val) ?? val
-			}
-			return cycleSafe.call(this, key, val)
+			return cycleSafe.call(this, key, typeToString(val) ?? val)
 		}
 
 		return JSON.stringify(subject, replacer, 2)
