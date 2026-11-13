@@ -34,10 +34,6 @@ const invert = (source, test) => {
 	return PREFIX_SAFE_TYPES.has(test.type) ? `!${text}` : `!(${text})`
 }
 
-// `getText(null)` returns the whole file, so a valueless return must stay bare.
-const returnText = (source, { argument }) =>
-	argument ? `return ${source.getText(argument)}` : 'return'
-
 const flipCandidate = (source, statements) => {
 	if (statements.length < MIN_STATEMENTS) return undefined
 	const [guard, tail] = statements.slice(LAST_TWO)
@@ -97,8 +93,8 @@ export const preferEarlyReturn = {
 							guard.test,
 							invert(source, guard.test),
 						),
-						fixer.replaceText(tail, returnText(source, guarded)),
-						fixer.replaceText(guarded, returnText(source, tail)),
+						fixer.replaceText(tail, source.getText(guarded)),
+						fixer.replaceText(guarded, source.getText(tail)),
 					],
 				})
 			},
