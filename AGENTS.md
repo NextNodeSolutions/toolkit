@@ -24,7 +24,7 @@ A change that weakens one is wrong, even when it compiles.
 
 Use the existing oxlint, oxfmt, TypeScript and bundler presets. Read the relevant package's manifest to find its exports and build inputs before changing either.
 
-Treat lint and test-runner upgrades as compatibility changes. Keep dependency versions in the workspace catalog when packages share them. The oxlint 1.62.0 and oxlint-tsgolint 0.23.0 pins preserve the imported suites' diagnostic identifiers. Newer releases failed unchanged diagnostic assertions. Vitest 3.2.7 preserves the existing runner major and stays inside standards' peer range. Upgrade these separately rather than editing expectations to accommodate the migration.
+Treat lint and test-runner upgrades as compatibility changes. Keep dependency versions in the workspace catalog when packages share them. Keep every tool the workspace installs inside standards' peer ranges, since standards' presets run against it. The oxlint 1.62.0 and oxlint-tsgolint 0.23.0 pins preserve the imported suites' diagnostic identifiers. Newer releases failed unchanged diagnostic assertions. Vitest 3.2.7 preserves the existing runner major and stays inside standards' peer range. Upgrade these separately rather than editing expectations to accommodate the migration.
 
 ## Checks
 

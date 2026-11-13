@@ -9,8 +9,8 @@
     "type-check": "pnpm build && pnpm -r run type-check"
   },
   "devDependencies": {
-    "@commitlint/cli": "21.2.4",
-    "@commitlint/config-conventional": "21.2.4",
+    "@commitlint/cli": "19.8.1",
+    "@commitlint/config-conventional": "19.8.1",
     "@nextnode-solutions/standards": "workspace:*",
     "better-sort-package-json": "1.1.1",
     "husky": "9.1.7",
