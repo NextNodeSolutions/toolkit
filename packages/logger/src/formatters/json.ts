@@ -13,6 +13,15 @@ import type { LogEntry } from '../types.js'
  */
 const DANGEROUS_KEYS = new Set(['__proto__', 'constructor', 'prototype'])
 
+const ENTRY_KEYS = new Set([
+	'level',
+	'message',
+	'timestamp',
+	'location',
+	'requestId',
+	'scope',
+])
+
 export interface JsonLogOutput {
 	level: string
 	message: string
@@ -41,7 +50,11 @@ const safeObjectEntries = (
 ): Record<string, unknown> => {
 	const safe: Record<string, unknown> = {}
 	for (const [key, fieldValue] of Object.entries(object)) {
-		if (typeof fieldValue === 'undefined' || DANGEROUS_KEYS.has(key))
+		if (
+			typeof fieldValue === 'undefined' ||
+			DANGEROUS_KEYS.has(key) ||
+			ENTRY_KEYS.has(key)
+		)
 			continue
 		safe[key] = fieldValue
 	}
@@ -52,23 +65,15 @@ const buildJsonOutput = (entry: LogEntry): JsonLogOutput => {
 	const { level, message, timestamp, location, requestId, scope, object } =
 		entry
 
-	const output: JsonLogOutput = {
+	return {
 		level,
 		message,
 		timestamp,
 		location,
 		requestId,
+		...(scope && { scope }),
+		...(object && safeObjectEntries(object)),
 	}
-
-	if (scope) {
-		output.scope = scope
-	}
-
-	if (object) {
-		Object.assign(output, safeObjectEntries(object))
-	}
-
-	return output
 }
 
 /**
