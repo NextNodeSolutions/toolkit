@@ -249,21 +249,17 @@ export const createResendProvider = (
 			sendViaResend({ resendClient, logger, utils }, message),
 
 		async validateConfig(): Promise<boolean> {
-			try {
-				const { error }: ResendReply = await resendClient.domains.list()
-				if (error) {
-					logger.error('Resend validateConfig failed', {
-						details: { error: error.message },
-					})
-					return false
-				}
-				return true
-			} catch (error) {
-				logger.error('Resend validateConfig failed', {
-					details: { error: errorMessageOf(error) },
-				})
-				return false
-			}
+			const failure = await resendClient.domains
+				.list()
+				.then(
+					({ error }: ResendReply) => error?.message,
+					errorMessageOf,
+				)
+			if (typeof failure === 'undefined') return true
+			logger.error('Resend validateConfig failed', {
+				details: { error: failure },
+			})
+			return false
 		},
 	}
 }
