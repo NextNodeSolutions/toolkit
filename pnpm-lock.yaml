@@ -303,6 +303,9 @@ importers:
       astro:
         specifier: ^6.0.0 || ^7.0.0
         version: 7.4.11(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1)
+      oxfmt:
+        specifier: '>=0.43.0'
+        version: 0.78.0(@astrojs/compiler-rs@0.5.3)
       semantic-release-monorepo:
         specifier: ^8.0.2
         version: 8.0.2(semantic-release@25.0.9(supports-color@7.2.0)(typescript@7.0.2))(supports-color@7.2.0)
@@ -313,9 +316,6 @@ importers:
         specifier: '>=0.21.0'
         version: 0.23.7(typescript@7.0.2)
     devDependencies:
-      oxfmt:
-        specifier: 'catalog:'
-        version: 0.78.0(@astrojs/compiler-rs@0.5.3)
       oxlint:
         specifier: 'catalog:'
         version: 1.62.0(oxlint-tsgolint@0.23.0)

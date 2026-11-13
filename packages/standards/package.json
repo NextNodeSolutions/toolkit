@@ -36,7 +36,6 @@
     "semantic-release-monorepo": "^8.0.2"
   },
   "devDependencies": {
-    "oxfmt": "catalog:",
     "oxlint": "catalog:",
     "oxlint-tsgolint": "catalog:",
     "vitest": "catalog:"
