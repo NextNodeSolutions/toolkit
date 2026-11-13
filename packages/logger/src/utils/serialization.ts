@@ -14,6 +14,27 @@ const typeToString = (subject: unknown): string | undefined => {
 	return undefined
 }
 
+type JsonReplacer = (this: unknown, key: string, field: unknown) => unknown
+
+const errorFields = (error: Error): Record<string, string> => ({
+	name: error.name,
+	message: error.message,
+	...(error.stack && { stack: error.stack }),
+})
+
+// Only an ancestor is a cycle: a shared reference elsewhere in the tree is serialized again.
+export const createCycleSafeReplacer = (): JsonReplacer => {
+	const ancestors: unknown[] = []
+	return function cycleSafe(this: unknown, _key, field) {
+		if (typeof field !== 'object' || field === null) return field
+		while (ancestors.length && ancestors.at(-1) !== this) ancestors.pop()
+		if (ancestors.includes(field)) return '[Circular Reference]'
+		const replacement = field instanceof Error ? errorFields(field) : field
+		ancestors.push(replacement)
+		return replacement
+	}
+}
+
 export const safeStringify = (subject: unknown): string => {
 	try {
 		// Fast path for primitives
@@ -26,21 +47,17 @@ export const safeStringify = (subject: unknown): string => {
 			return String(subject)
 		}
 
-		// Complex object serialization with circular reference protection
-		const seen = new WeakSet<object>()
+		const cycleSafe = createCycleSafeReplacer()
 
-		const replacer = (_key: string, val: unknown): unknown => {
-			// Early return for non-objects
+		const replacer: JsonReplacer = function special(
+			this: unknown,
+			key,
+			val,
+		) {
 			if (typeof val !== 'object' || val === null) {
-				const specialString = typeToString(val)
-				return specialString ?? val
+				return typeToString(val) ?? val
 			}
-
-			// Circular reference check
-			if (seen.has(val)) return '[Circular Reference]'
-			seen.add(val)
-
-			return val
+			return cycleSafe.call(this, key, val)
 		}
 
 		return JSON.stringify(subject, replacer, 2)
