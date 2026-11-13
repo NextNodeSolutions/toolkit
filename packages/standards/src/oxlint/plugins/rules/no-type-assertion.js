@@ -17,24 +17,27 @@ export const noTypeAssertion = {
 		schema: [],
 	},
 	create(context) {
+		const reportUnlessConst = node => {
+			const { typeAnnotation } = node
+
+			const isAsConst =
+				typeAnnotation.type === 'TSTypeReference' &&
+				typeAnnotation.typeName?.type === 'Identifier' &&
+				typeAnnotation.typeName.name === 'const'
+
+			if (isAsConst) {
+				return
+			}
+
+			context.report({
+				node,
+				messageId: 'noTypeAssertion',
+			})
+		}
+
 		return {
-			TSAsExpression(node) {
-				const { typeAnnotation } = node
-
-				const isAsConst =
-					typeAnnotation.type === 'TSTypeReference' &&
-					typeAnnotation.typeName?.type === 'Identifier' &&
-					typeAnnotation.typeName.name === 'const'
-
-				if (isAsConst) {
-					return
-				}
-
-				context.report({
-					node,
-					messageId: 'noTypeAssertion',
-				})
-			},
+			TSAsExpression: reportUnlessConst,
+			TSTypeAssertion: reportUnlessConst,
 		}
 	},
 }
