@@ -1,0 +1,18 @@
+{
+	"extends": "@nextnode-solutions/standards/typescript/library",
+	"compilerOptions": {
+		"lib": ["ES2023"],
+		"paths": {
+			"@/*": ["./src/*"]
+		},
+		"types": ["node", "vitest/globals"],
+		"jsx": "react-jsx"
+	},
+	"include": [
+		"src/**/*.ts",
+		"src/**/*.tsx",
+		"__tests__/**/*.ts",
+		"*.config.*"
+	],
+	"exclude": ["node_modules", "dist"]
+}

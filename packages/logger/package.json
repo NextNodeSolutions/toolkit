@@ -1,0 +1,70 @@
+{
+  "name": "@nextnode-solutions/logger",
+  "version": "2.1.0",
+  "description": "A lightweight, zero-dependency TypeScript logging library for NextNode projects with scope-based organization, environment-aware formatting, and pluggable transports",
+  "keywords": [
+    "browser",
+    "development",
+    "json",
+    "log-level",
+    "logger",
+    "logging",
+    "nextnode",
+    "nodejs",
+    "production",
+    "scope",
+    "structured-logging",
+    "transport",
+    "typescript",
+    "zero-dependency"
+  ],
+  "license": "MIT",
+  "author": "NextNode Solutions",
+  "files": [
+    "CHANGELOG.md",
+    "README.md",
+    "dist"
+  ],
+  "repository": {
+    "directory": "packages/logger",
+    "type": "git",
+    "url": "git+https://github.com/NextNodeSolutions/toolkit.git"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "lint": "oxlint --type-aware",
+    "test:coverage": "vitest run --coverage",
+    "test:unit": "vitest run",
+    "test:watch": "vitest",
+    "type-check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@nextnode-solutions/standards": "workspace:*",
+    "@types/node": "catalog:",
+    "@vitest/coverage-v8": "catalog:",
+    "oxlint": "catalog:",
+    "oxlint-tsgolint": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/logger.d.ts",
+      "import": "./dist/logger.js"
+    },
+    "./testing": {
+      "types": "./dist/testing.d.ts",
+      "import": "./dist/testing.js"
+    },
+    "./transports/http": {
+      "types": "./dist/transports/http.d.ts",
+      "import": "./dist/transports/http.js"
+    }
+  },
+  "sideEffects": false
+}

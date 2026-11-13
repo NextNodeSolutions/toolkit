@@ -1,0 +1,75 @@
+{
+  "name": "@nextnode-solutions/email-manager",
+  "version": "1.5.0",
+  "description": "Template-first email sending library for NextNode projects",
+  "keywords": [
+    "email",
+    "nextnode",
+    "react-email",
+    "resend",
+    "templates",
+    "typescript"
+  ],
+  "homepage": "https://github.com/NextNodeSolutions/toolkit/tree/main/packages/email-manager#readme",
+  "bugs": {
+    "url": "https://github.com/NextNodeSolutions/toolkit/issues"
+  },
+  "license": "MIT",
+  "author": "NextNode Solutions",
+  "files": [
+    "CHANGELOG.md",
+    "README.md",
+    "dist/**/*.d.ts",
+    "dist/**/*.js"
+  ],
+  "repository": {
+    "directory": "packages/email-manager",
+    "type": "git",
+    "url": "git+https://github.com/NextNodeSolutions/toolkit.git"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "lint": "oxlint --type-aware",
+    "test:coverage": "vitest run --coverage",
+    "test:unit": "vitest run",
+    "test:watch": "vitest",
+    "type-check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@nextnode-solutions/logger": "workspace:*",
+    "@nextnode-solutions/standards": "workspace:*",
+    "@react-email/render": "2.3.1",
+    "@types/node": "catalog:",
+    "@types/react": "19.3.0",
+    "@vitest/coverage-v8": "catalog:",
+    "oxlint": "catalog:",
+    "oxlint-tsgolint": "catalog:",
+    "react": "19.3.1",
+    "resend": "6.38.0",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  },
+  "peerDependencies": {
+    "@nextnode-solutions/logger": ">=0.3.0",
+    "@react-email/render": ">=1.0.0",
+    "react": ">=18.0.0",
+    "resend": ">=6.0.0"
+  },
+  "peerDependenciesMeta": {
+    "resend": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "sideEffects": false
+}

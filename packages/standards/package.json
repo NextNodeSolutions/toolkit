@@ -1,0 +1,125 @@
+{
+  "name": "@nextnode-solutions/standards",
+  "version": "1.27.1",
+  "description": "Centralized development standards for NextNode projects: oxlint, oxfmt, TypeScript, Tailwind, Vitest, commitlint",
+  "keywords": [
+    "commitlint",
+    "formatting",
+    "linting",
+    "nextnode",
+    "oxfmt",
+    "oxlint",
+    "standards"
+  ],
+  "homepage": "https://github.com/NextNodeSolutions/toolkit/tree/main/packages/standards#readme",
+  "bugs": {
+    "url": "https://github.com/NextNodeSolutions/toolkit/issues"
+  },
+  "license": "MIT",
+  "author": "NextNode Solutions",
+  "files": [
+    "README.md",
+    "src"
+  ],
+  "repository": {
+    "directory": "packages/standards",
+    "type": "git",
+    "url": "git+https://github.com/NextNodeSolutions/toolkit.git"
+  },
+  "scripts": {
+    "build": "cp src/oxfmt/base.ts src/oxfmt/base.js",
+    "lint": "oxlint",
+    "test:unit": "vitest run"
+  },
+  "dependencies": {
+    "@semantic-release/github": "^12.0.6",
+    "semantic-release-monorepo": "^8.0.2"
+  },
+  "devDependencies": {
+    "oxlint": "catalog:",
+    "oxlint-tsgolint": "catalog:",
+    "vitest": "catalog:"
+  },
+  "peerDependencies": {
+    "@commitlint/cli": "^19.0.0",
+    "@commitlint/config-conventional": "^19.0.0",
+    "astro": "^6.0.0 || ^7.0.0",
+    "oxfmt": ">=0.43.0",
+    "oxlint": ">=1.62.0",
+    "oxlint-tsgolint": ">=0.23.0",
+    "tailwindcss": "^4.0.0",
+    "tsdown": ">=0.21.0",
+    "vitest": "^3.0.0 || ^4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@commitlint/cli": {
+      "optional": true
+    },
+    "@commitlint/config-conventional": {
+      "optional": true
+    },
+    "astro": {
+      "optional": true
+    },
+    "oxfmt": {
+      "optional": false
+    },
+    "oxlint": {
+      "optional": false
+    },
+    "oxlint-tsgolint": {
+      "optional": true
+    },
+    "tailwindcss": {
+      "optional": true
+    },
+    "tsdown": {
+      "optional": true
+    },
+    "vitest": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "type": "module",
+  "exports": {
+    "./oxlint": {
+      "types": "./src/oxlint/base.d.ts",
+      "default": "./src/oxlint/base.js"
+    },
+    "./oxfmt": {
+      "types": "./src/oxfmt/base.d.ts",
+      "default": "./src/oxfmt/base.js"
+    },
+    "./tsdown": {
+      "types": "./src/tsdown/base.d.ts",
+      "default": "./src/tsdown/base.js"
+    },
+    "./typescript/library": "./src/typescript/tsconfig.library.json",
+    "./typescript/nextjs": "./src/typescript/tsconfig.nextjs.json",
+    "./typescript/astro": "./src/typescript/tsconfig.astro.json",
+    "./tailwind": "./src/tailwind/theme.css",
+    "./vitest/vite-plugin": {
+      "types": "./src/vitest/vite-plugin.d.ts"
+    },
+    "./vitest/frontend": {
+      "types": "./src/vitest/vitest.frontend.d.ts",
+      "default": "./src/vitest/vitest.frontend.js"
+    },
+    "./vitest/backend": {
+      "types": "./src/vitest/vitest.backend.d.ts",
+      "default": "./src/vitest/vitest.backend.js"
+    },
+    "./vitest/astro": {
+      "types": "./src/vitest/vitest.astro.d.ts",
+      "default": "./src/vitest/vitest.astro.js"
+    },
+    "./commitlint": "./src/commitlint/base.js",
+    "./editorconfig": "./src/editorconfig/base.editorconfig",
+    "./npmrc": "./src/npmrc/base.npmrc",
+    "./lint-staged": "./src/lint-staged/base.js",
+    "./semantic-release": "./src/semantic-release/base.js"
+  }
+}
