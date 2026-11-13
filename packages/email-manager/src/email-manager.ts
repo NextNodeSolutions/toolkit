@@ -3,8 +3,7 @@
  * Main facade for email operations - the primary public API
  */
 
-import { createLogger } from '@nextnode-solutions/logger'
-
+import { callerLoggerOrSilent } from './caller-logger.js'
 import { createProvider } from './providers/registry.js'
 import { renderTemplate } from './templates/renderer.js'
 import { emailFail } from './types/result.js'
@@ -180,8 +179,7 @@ const sendTemplatedEmail = async <TProps>(
 export async function createEmailManager<P extends keyof ProviderConfigMap>(
 	config: EmailManagerConfig<P>,
 ): Promise<EmailManager> {
-	// Business rule: silent by default - caller opts into logging by injecting a logger
-	const logger = config.logger ?? createLogger({ silent: true })
+	const logger = callerLoggerOrSilent(config.logger)
 
 	// PERF-2: Provider client created once, reused for all sends
 	const provider = await createProvider(

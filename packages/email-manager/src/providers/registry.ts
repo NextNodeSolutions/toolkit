@@ -1,4 +1,4 @@
-import { createLogger } from '@nextnode-solutions/logger'
+import { callerLoggerOrSilent } from '../caller-logger.js'
 
 import { createResendProvider } from './resend.js'
 
@@ -43,5 +43,5 @@ export async function createProvider(
 		throw new Error(`Unknown provider: ${String(name)}`)
 	}
 
-	return initResend(config, logger ?? createLogger({ silent: true }))
+	return initResend(config, callerLoggerOrSilent(logger))
 }
