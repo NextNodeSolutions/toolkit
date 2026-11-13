@@ -1,0 +1,7 @@
+[project]
+name = "email-manager"
+type = "package"
+filter = "@nextnode-solutions/email-manager"
+
+[package]
+access = "public"

@@ -1,0 +1,31 @@
+{
+	"compilerOptions": {
+		// Target & Module Configuration
+		"target": "ES2024",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"lib": ["ES2024"],
+
+		// Type Safety — Maximum Strictness
+		"strict": true,
+		"noUncheckedIndexedAccess": true,
+		"exactOptionalPropertyTypes": true,
+		"noImplicitOverride": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedSideEffectImports": true,
+
+		// ESM — Library Ready
+		"isolatedModules": true,
+		"verbatimModuleSyntax": true,
+
+		// Compatibility
+		"forceConsistentCasingInFileNames": true,
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		"allowJs": true,
+
+		// Development Mode — No Emit
+		"noEmit": true
+	}
+}

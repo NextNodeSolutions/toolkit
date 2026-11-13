@@ -1,0 +1,124 @@
+/**
+ * Browser console formatter for NextNode Logger
+ * Uses CSS styling and console API features for DevTools
+ */
+
+import { formatTimeForDisplay } from '../utils/time.js'
+
+import { createScopeColorCache } from './scope-colors.js'
+import { LOG_LEVEL_ICONS, formatLocationForDisplay } from './shared.js'
+
+import type { LogEntry, LogLevel } from '../types.js'
+
+// CSS styles for browser DevTools
+const STYLES = {
+	reset: '',
+	bold: 'font-weight: bold',
+	dim: 'color: #888',
+	debug: 'color: #888; font-weight: bold',
+	info: 'color: #2196F3; font-weight: bold',
+	warn: 'color: #FF9800; font-weight: bold',
+	error: 'color: #F44336; font-weight: bold',
+	scope: {
+		green: 'color: #4CAF50; font-weight: bold',
+		magenta: 'color: #E91E63; font-weight: bold',
+		cyan: 'color: #00BCD4; font-weight: bold',
+		yellow: 'color: #FFEB3B; font-weight: bold',
+		blue: 'color: #2196F3; font-weight: bold',
+	},
+	timestamp: 'color: #888',
+	location: 'color: #888; font-style: italic',
+	message: 'color: inherit',
+} as const
+
+const LOG_LEVEL_STYLES: Record<LogLevel, string> = {
+	debug: STYLES.debug,
+	info: STYLES.info,
+	warn: STYLES.warn,
+	error: STYLES.error,
+} as const
+
+const SCOPE_STYLE_PALETTE: readonly string[] = [
+	STYLES.scope.green,
+	STYLES.scope.magenta,
+	STYLES.scope.cyan,
+	STYLES.scope.yellow,
+	STYLES.scope.blue,
+]
+
+const scopeStyleCache = createScopeColorCache<string>({
+	palette: SCOPE_STYLE_PALETTE,
+	fallback: STYLES.scope.green,
+})
+
+export interface BrowserLogOutput {
+	format: string
+	styles: string[]
+	objects: unknown[]
+}
+
+/**
+ * Formats a log entry for browser DevTools.
+ * Returns an object with:
+ * - format: The format string with %c placeholders for styling
+ * - styles: Array of CSS styles to apply
+ * - objects: Additional objects to pass directly to console (for expandable inspection)
+ */
+export const formatForBrowser = (entry: LogEntry): BrowserLogOutput => {
+	const { level, message, timestamp, location, requestId, scope, object } =
+		entry
+
+	const formatParts: string[] = []
+	const styles: string[] = []
+
+	// Icon (no style needed)
+	formatParts.push(LOG_LEVEL_ICONS[level])
+
+	// Level with style
+	formatParts.push(`%c${level.toUpperCase().padEnd(5)}`)
+	styles.push(LOG_LEVEL_STYLES[level])
+
+	// Scope if present
+	if (scope) {
+		formatParts.push(`%c[${scope}]`)
+		styles.push(scopeStyleCache.resolve(scope))
+	}
+
+	// Timestamp
+	formatParts.push(`%c[${formatTimeForDisplay(timestamp)}]`)
+	styles.push(STYLES.timestamp)
+
+	// Message (reset to default)
+	formatParts.push(`%c${message}`)
+	styles.push(STYLES.message)
+
+	// Location and request ID
+	formatParts.push(`%c(${formatLocationForDisplay(location)}) [${requestId}]`)
+	styles.push(STYLES.location)
+
+	const objects: unknown[] = []
+
+	// Pass object directly for expandable inspection in DevTools
+	if (object && Object.keys(object).length > 0) {
+		objects.push(object)
+	}
+
+	return {
+		format: formatParts.join(' '),
+		styles,
+		objects,
+	}
+}
+
+/**
+ * Creates the arguments array to spread into console.log/warn/error
+ * Usage: console[level](...createBrowserLogArgs(entry))
+ */
+export const createBrowserLogArgs = (entry: LogEntry): unknown[] => {
+	const { format, styles, objects } = formatForBrowser(entry)
+	return [format, ...styles, ...objects]
+}
+
+export const resetScopeCache = (): void => {
+	scopeStyleCache.reset()
+}
