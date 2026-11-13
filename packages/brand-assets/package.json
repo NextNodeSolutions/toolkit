@@ -1,34 +1,33 @@
 {
-	"name": "@nextnode-solutions/brand-assets",
-	"version": "1.0.0",
-	"description": "NextNode Solutions brand assets — logos, icons, favicons, and social avatars",
-	"homepage": "https://github.com/NextNodeSolutions/core#readme",
-	"license": "MIT",
-	"author": "NextNode Solutions",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/NextNodeSolutions/core.git",
-		"directory": "packages/brand-assets"
-	},
-	"files": [
-		"README.md",
-		"src"
-	],
-	"type": "module",
-	"sideEffects": false,
-	"exports": {
-		"./icons/*": "./src/icons/*",
-		"./icons-text/*": "./src/icons-text/*",
-		"./logos-square/*": "./src/logos-square/*",
-		"./logos-landscape/*": "./src/logos-landscape/*",
-		"./social/*": "./src/social/*",
-		"./favicon/*": "./src/favicon/*"
-	},
-	"publishConfig": {
-		"access": "public"
-	},
-	"engines": {
-		"node": ">=24.0.0"
-	},
-	"packageManager": "pnpm@10.11.0"
+  "name": "@nextnode-solutions/brand-assets",
+  "version": "1.0.0",
+  "description": "NextNode Solutions brand assets — logos, icons, favicons, and social avatars",
+  "homepage": "https://github.com/NextNodeSolutions/core#readme",
+  "license": "MIT",
+  "author": "NextNode Solutions",
+  "files": [
+    "README.md",
+    "src"
+  ],
+  "repository": {
+    "directory": "packages/brand-assets",
+    "type": "git",
+    "url": "https://github.com/NextNodeSolutions/core.git"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "exports": {
+    "./icons/*": "./src/icons/*",
+    "./icons-text/*": "./src/icons-text/*",
+    "./logos-square/*": "./src/logos-square/*",
+    "./logos-landscape/*": "./src/logos-landscape/*",
+    "./social/*": "./src/social/*",
+    "./favicon/*": "./src/favicon/*"
+  },
+  "sideEffects": false
 }

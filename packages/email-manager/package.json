@@ -29,29 +29,26 @@
   },
   "scripts": {
     "build": "tsdown",
-    "format": "oxfmt --write .",
-    "format:check": "oxfmt --check .",
     "lint": "oxlint --type-aware",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
-    "type-check": "tsgo --noEmit"
+    "type-check": "tsc --noEmit"
   },
   "devDependencies": {
     "@nextnode-solutions/logger": "workspace:*",
     "@nextnode-solutions/standards": "workspace:*",
-    "@react-email/render": "^1.0.0",
-    "@types/node": "^22",
-    "@types/react": "^19",
-    "@typescript/native-preview": "7.0.0-dev.20260407.1",
-    "@vitest/coverage-v8": "^3",
-    "oxfmt": "^0.43.0",
-    "oxlint": "^1.62.0",
-    "oxlint-tsgolint": "^0.23.0",
-    "react": "^19",
-    "resend": "^6.6.0",
-    "tsdown": "^0.21.9",
-    "vitest": "^3"
+    "@react-email/render": "2.3.1",
+    "@types/node": "catalog:",
+    "@types/react": "19.3.0",
+    "@vitest/coverage-v8": "catalog:",
+    "oxlint": "catalog:",
+    "oxlint-tsgolint": "catalog:",
+    "react": "19.3.1",
+    "resend": "6.38.0",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   },
   "peerDependencies": {
     "@nextnode-solutions/logger": ">=0.3.0",
@@ -70,7 +67,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "packageManager": "pnpm@10.11.0",
   "type": "module",
   "exports": {
     ".": {

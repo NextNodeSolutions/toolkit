@@ -180,7 +180,7 @@ The existing `@nextnode/standards` package (v2.2.1) uses Biome for linting and P
     [project]
     name = "standards"
     type = "package"
-
+    
     [package]
     scope = "@nextnode"
     access = "public"
