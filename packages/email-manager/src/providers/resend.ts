@@ -109,9 +109,33 @@ const mapOptionalMetadata = (
 
 type ProviderUtils = ReturnType<typeof createProviderUtils>
 
-type ResendSendReply = {
+type ResendReply = {
 	data: unknown
-	error: { message: string } | null
+	error: { message: string; name?: string } | null
+}
+
+const RESEND_ERROR_NAME_CODES: ReadonlyMap<string, EmailError['code']> =
+	new Map([
+		['validation_error', 'VALIDATION_ERROR'],
+		['missing_required_field', 'VALIDATION_ERROR'],
+		['invalid_parameter', 'VALIDATION_ERROR'],
+		['invalid_attachment', 'VALIDATION_ERROR'],
+		['invalid_from_address', 'VALIDATION_ERROR'],
+		['missing_api_key', 'AUTHENTICATION_ERROR'],
+		['invalid_api_key', 'AUTHENTICATION_ERROR'],
+		['restricted_api_key', 'AUTHENTICATION_ERROR'],
+		['rate_limit_exceeded', 'RATE_LIMIT_ERROR'],
+	])
+
+const mapResendReplyError = (
+	error: NonNullable<ResendReply['error']>,
+): EmailError => {
+	const mapped = mapResendError(new Error(error.message))
+	const namedCode =
+		typeof error.name === 'string'
+			? RESEND_ERROR_NAME_CODES.get(error.name)
+			: undefined
+	return namedCode ? { ...mapped, code: namedCode } : mapped
 }
 
 const sentMessageIdOf = (sentEmail: unknown): string | null => {
@@ -176,14 +200,14 @@ const sendViaResend = async (
 
 	try {
 		const payload = mapToResendPayload(message, utils)
-		const { data, error }: ResendSendReply =
+		const { data, error }: ResendReply =
 			await resendClient.emails.send(payload)
 
 		if (error) {
 			logger.error('Resend API returned error', {
 				details: { errorMessage: error.message },
 			})
-			return fail(mapResendError(new Error(error.message)))
+			return fail(mapResendReplyError(error))
 		}
 
 		const messageId = sentMessageIdOf(data)
