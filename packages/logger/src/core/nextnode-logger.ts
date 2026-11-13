@@ -13,12 +13,27 @@ import { createLogEntry } from './create-log-entry.js'
 import type {
 	ChildLoggerConfig,
 	Environment,
+	LogEntry,
 	Logger,
 	LoggerConfig,
 	LogLevel,
 	LogObject,
 	Transport,
 } from '../types.js'
+
+// A synchronous transport still runs and fails synchronously: the body runs until its first await.
+const dispatchTo = async (
+	transport: Transport,
+	entry: LogEntry,
+): Promise<void> => {
+	try {
+		await transport.log(entry)
+	} catch (error) {
+		console.error(
+			`[NextNodeLogger] Transport failed: ${error instanceof Error ? error.message : String(error)}`,
+		)
+	}
+}
 
 export class NextNodeLogger implements Logger {
 	private readonly environment: Environment
@@ -68,13 +83,7 @@ export class NextNodeLogger implements Logger {
 		})
 
 		for (const transport of this.transports) {
-			try {
-				void transport.log(entry)
-			} catch (error) {
-				console.error(
-					`[NextNodeLogger] Transport failed: ${error instanceof Error ? error.message : String(error)}`,
-				)
-			}
+			void dispatchTo(transport, entry)
 		}
 	}
 
