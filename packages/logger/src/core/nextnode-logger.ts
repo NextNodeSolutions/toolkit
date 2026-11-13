@@ -21,18 +21,17 @@ import type {
 	Transport,
 } from '../types.js'
 
-const reportTransportFailure = (error: unknown): void => {
-	console.error(
-		`[NextNodeLogger] Transport failed: ${error instanceof Error ? error.message : String(error)}`,
-	)
-}
-
-const dispatchTo = (transport: Transport, entry: LogEntry): void => {
+// A synchronous transport still runs and fails synchronously: the body runs until its first await.
+const dispatchTo = async (
+	transport: Transport,
+	entry: LogEntry,
+): Promise<void> => {
 	try {
-		const pending = transport.log(entry)
-		if (pending) pending.catch(reportTransportFailure)
+		await transport.log(entry)
 	} catch (error) {
-		reportTransportFailure(error)
+		console.error(
+			`[NextNodeLogger] Transport failed: ${error instanceof Error ? error.message : String(error)}`,
+		)
 	}
 }
 
@@ -84,7 +83,7 @@ export class NextNodeLogger implements Logger {
 		})
 
 		for (const transport of this.transports) {
-			dispatchTo(transport, entry)
+			void dispatchTo(transport, entry)
 		}
 	}
 
